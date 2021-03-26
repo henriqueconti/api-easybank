@@ -1,7 +1,6 @@
 package br.com.easybank.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.easybank.exception.ResourceNotFoundException;
+import br.com.easybank.exception.ContaNotFoundException;
 import br.com.easybank.model.Conta;
 import br.com.easybank.repository.ContaRepository;
 import br.com.easybank.service.ContaService;
@@ -23,38 +22,34 @@ import br.com.easybank.service.ContaService;
 @RequestMapping("/easybank")
 public class ContaController {
 	
-	@Autowired
-	ContaRepository contaRepository;
-	
 	private final ContaService contaService;
 	
+	@Autowired
 	public ContaController(ContaService contaService) {
 		this.contaService = contaService;
 	}
 	
 	@GetMapping("/contas")
-	public List<Conta> getAllContas(){
-		return contaRepository.findAll();
+	public ResponseEntity<List<Conta>> getAllContas(){
+		List<Conta> contas = contaService.getContas();
+		return new ResponseEntity<>(contas, HttpStatus.OK);
 	}
 	
 	@GetMapping("/contas/{id}")
-	public ResponseEntity<Conta> buscaPorCpf(@PathVariable(value = "id") Long id){
-		Optional<Conta> conta = contaRepository.findById(id);
-		return new ResponseEntity<>(conta.get(), HttpStatus.OK);	 
+	public ResponseEntity<Conta> getContaById(@PathVariable(value = "id")Long id){
+		Conta conta = contaService.getContaById(id);
+		return new ResponseEntity<>(conta, HttpStatus.OK);	 
 	}
 	
 	@PostMapping("/contas")
-	public ResponseEntity<Conta> registrar(@RequestBody Conta conta){
-		Conta contaCriada = contaService.salvar(conta);
+	public ResponseEntity<Conta> registerConta(@RequestBody Conta conta){
+		Conta contaCriada = contaService.setNewConta(conta);
 		return new ResponseEntity<>(contaCriada, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/contas/{id}")
 	public ResponseEntity<?> deletaConta(@PathVariable(value = "id") Long id){
-		Conta conta = contaRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Conta", "id", id));
-		contaRepository.delete(conta);
-		
-		return ResponseEntity.ok().build();
+		contaService.deleteContaById(id);	
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

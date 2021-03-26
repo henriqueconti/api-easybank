@@ -1,4 +1,4 @@
-package br.com.easybank.model;
+package br.com.easybank.enumerated;
 
 public enum ContaPoupanca {
 	

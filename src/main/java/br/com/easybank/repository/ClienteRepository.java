@@ -3,9 +3,9 @@ package br.com.easybank.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.easybank.model.Conta;
+import br.com.easybank.model.Cliente;
 
 @Repository
-public interface ContaRepository extends JpaRepository<Conta, Long>{
-	
+public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+
 }

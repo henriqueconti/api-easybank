@@ -9,78 +9,88 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.Random;
 
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+
+import br.com.easybank.enumerated.ContaPoupanca;
+import br.com.easybank.enumerated.TipoConta;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "contas")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"dataAberturaConta"},
+@JsonIgnoreProperties(value = {"dataAberturaConta", "numeroConta"},
 allowGetters = true)
 public class Conta {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	
-	@NotNull
-	@JsonProperty("nome_titular")
-	private String titularConta;
-	
-	@NotNull
-	@JsonProperty("cpf_titular")
-	@Column(unique = true)
-	@CPF(message = "CPF invalido")
-	private String cpfTitular; 
+	@OneToOne
+	private Cliente cliente;
 	
 	@JsonProperty("data_abertura_conta")
     @CreatedDate
     @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataAberturaConta;
 	
-	@NotNull
+    @Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	@JsonProperty("tipo_conta")
 	private TipoConta tipoConta;
 	
-	@NotNull
+    @JsonProperty("numero_conta")
+    private Integer numeroConta;
+    
+    @Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	@JsonProperty("conta_poupanca")
 	private ContaPoupanca contaPoupanca;
-	
+    
+    public Conta() {
+    	this.numeroConta = gerarNumero();
+    }
+
+	public Conta(Long id, LocalDate dataAberturaConta, TipoConta tipoConta, Integer numeroConta,
+			ContaPoupanca contaPoupanca) {
+		this.id = id;
+		this.dataAberturaConta = dataAberturaConta;
+		this.tipoConta = tipoConta;
+		this.numeroConta = gerarNumero();
+		this.contaPoupanca = contaPoupanca;
+	}
+
+	public int gerarNumero() {
+		Random gerador = new Random();
+		return (gerador.nextInt(900000000) + 100000000);
+	}
+
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
-	public String getTitularConta() {
-		return titularConta;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setTitularConta(String titularConta) {
-		this.titularConta = titularConta;
-	}
-
-	public String getCpfTitular() {
-		return cpfTitular;
-	}
-
-	public void setCpfTitular(String cpfTitular) {
-		this.cpfTitular = cpfTitular;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public LocalDate getDataAberturaConta() {
@@ -99,6 +109,14 @@ public class Conta {
 		this.tipoConta = tipoConta;
 	}
 
+	public Integer getNumeroConta() {
+		return numeroConta;
+	}
+
+	public void setNumeroConta(Integer numeroConta) {
+		this.numeroConta = numeroConta;
+	}
+
 	public ContaPoupanca getContaPoupanca() {
 		return contaPoupanca;
 	}
@@ -106,4 +124,5 @@ public class Conta {
 	public void setContaPoupanca(ContaPoupanca contaPoupanca) {
 		this.contaPoupanca = contaPoupanca;
 	}
+	
 }
