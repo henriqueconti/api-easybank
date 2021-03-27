@@ -39,6 +39,7 @@ public class Conta {
 	private Long id;
 	
 	@OneToOne
+	@NotNull
 	private Cliente cliente;
 	
 	@JsonProperty("data_abertura_conta")

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,11 +30,13 @@ public class Cliente {
 	
 	@JsonProperty("nome_titular")
 	@Column(nullable = false)
+	@NotNull
 	private String titularConta;
 	
 	@JsonProperty("cpf_titular")
 	@Column(nullable = false, unique = true)
 	@CPF(message = "CPF invalido")
+	@NotNull
 	private String cpfTitular; 
 	
 //	@JsonProperty("data_nascimento")
@@ -49,6 +52,7 @@ public class Cliente {
 	@JsonProperty("tipo_cliente")
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
+	@NotNull
 	private TipoCliente tipoCliente;
 	
 	public Cliente() {

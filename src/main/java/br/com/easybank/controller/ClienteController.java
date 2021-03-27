@@ -15,21 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.easybank.model.Cliente;
 import br.com.easybank.repository.ClienteRepository;
+import br.com.easybank.service.ClienteService;
 
 @RestController
 @RequestMapping("/easybank")
 public class ClienteController {
 	
-	ClienteRepository clienteRepository;
+	private final ClienteService clienteService;
 	
 	@Autowired
-	public ClienteController(ClienteRepository clienteRepository) {
-		this.clienteRepository = clienteRepository;
+	public ClienteController(ClienteService clienteService) {
+		this.clienteService = clienteService;
 	}
 	
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> getAllContas(){
-		List<Cliente> clientes = clienteRepository.findAll();
+		List<Cliente> clientes = clienteService.getClientes();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
@@ -41,13 +42,13 @@ public class ClienteController {
 	
 	@PostMapping("/clientes")
 	public ResponseEntity<Cliente> registerConta(@RequestBody Cliente cliente){
-		Cliente clienteCriado = clienteRepository.save(cliente);
+		Cliente clienteCriado = clienteService.setNewCliente(cliente);
 		return new ResponseEntity<>(clienteCriado, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("")
 	public ResponseEntity<?> deletaConta(@PathVariable(value = "id") Long id){
-		clienteRepository.deleteById(id);	
+		clienteService.deleteCliente(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
