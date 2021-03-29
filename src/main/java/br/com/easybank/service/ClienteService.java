@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import br.com.easybank.exception.ClienteNotFoundException;
 import br.com.easybank.model.Cliente;
 import br.com.easybank.repository.ClienteRepository;
-import br.com.easybank.repository.ContaRepository;
 
 @Service
 public class ClienteService {

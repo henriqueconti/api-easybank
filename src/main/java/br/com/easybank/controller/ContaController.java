@@ -2,6 +2,8 @@ package br.com.easybank.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class ContaController {
 	}
 	
 	@PostMapping("/contas")
-	public ResponseEntity<Conta> registerConta(@RequestBody Conta conta){
+	public ResponseEntity<Conta> registerConta(@RequestBody @Valid Conta conta){
 		Conta contaCriada = contaService.setNewConta(conta);
 		return new ResponseEntity<>(contaCriada, HttpStatus.CREATED);
 	}

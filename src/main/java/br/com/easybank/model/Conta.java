@@ -64,9 +64,10 @@ public class Conta {
     	this.numeroConta = gerarNumero();
     }
 
-	public Conta(Long id, LocalDate dataAberturaConta, TipoConta tipoConta, Integer numeroConta,
+	public Conta(Long id, Cliente cliente, LocalDate dataAberturaConta, TipoConta tipoConta, Integer numeroConta,
 			ContaPoupanca contaPoupanca) {
 		this.id = id;
+		this.cliente = cliente;
 		this.dataAberturaConta = dataAberturaConta;
 		this.tipoConta = tipoConta;
 		this.numeroConta = gerarNumero();
