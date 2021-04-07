@@ -29,12 +29,12 @@ public class Cliente {
 	private Long id;
 	
 	@JsonProperty("nome_titular")
-	@Column
+	@Column(nullable = false)
 	@NotNull
 	private String titularConta;
 	
 	@JsonProperty("cpf_titular")
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
 	@CPF(message = "CPF invalido")
 	@NotNull
 	private String cpfTitular; 
@@ -46,13 +46,12 @@ public class Cliente {
 	
 	@JsonProperty("tipo_pessoa")
 	@Enumerated(EnumType.STRING)
-	@Column
-	@NotNull
+	@Column(nullable = false)
 	private TipoPessoa tipoPessoa;
 	
 	@JsonProperty("tipo_cliente")
 	@Enumerated(EnumType.STRING)
-	@Column
+	@Column(nullable = false)
 	@NotNull
 	private TipoCliente tipoCliente;
 	
