@@ -30,26 +30,32 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/clientes")
-	public ResponseEntity<List<Cliente>> getAllContas(){
+	public ResponseEntity<List<Cliente>> getAllClientes(){
 		List<Cliente> clientes = clienteService.getClientes();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
 	@GetMapping("/clientes/{id}")
-	public ResponseEntity<Cliente> getContaById(@PathVariable(value = "id")Long id){
+	public ResponseEntity<Cliente> getClienteById(@PathVariable(value = "id")Long id){
 		Cliente cliente = clienteService.getClienteById(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);	 
 	}
 	
 	@PostMapping("/clientes")
-	public ResponseEntity<Cliente> registerConta(@RequestBody @Valid Cliente cliente){
+	public ResponseEntity<Cliente> registerCliente(@RequestBody @Valid Cliente cliente){
 		Cliente clienteCriado = clienteService.setNewCliente(cliente);
 		return new ResponseEntity<>(clienteCriado, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("")
-	public ResponseEntity<?> deletaConta(@PathVariable(value = "id") Long id){
+	public ResponseEntity<?> deletaCliente(@PathVariable(value = "id") Long id){
 		clienteService.deleteCliente(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+//	@GetMapping("/clientes/{cpf_titular}")
+//	public ResponseEntity<Cliente> getClienteByCpf(@PathVariable(value = "cpf") String cpf){
+//		Cliente cliente = clienteService.getClienteByCpf(cpf);
+//		return new ResponseEntity<>(cliente, HttpStatus.OK);
+//	}
 }
