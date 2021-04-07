@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,16 +32,14 @@ public class Cliente {
 	@NotNull
 	private String titularConta;
 	
-	@JsonProperty("cpf_titular")
 	@Column(unique = true)
 	@CPF(message = "CPF invalido")
 	@NotNull
-	private String cpfTitular; 
+	private String cpf; 
 	
-//	@JsonProperty("data_nascimento")
-//	@DateTimeFormat(pattern = "dd/MM/yyyy")
-//	@Column(nullable = false)
-//	private LocalDate dataNascimento;
+	@JsonProperty("data_nascimento")
+	@NotNull
+	private LocalDate dataNascimento;
 	
 	@JsonProperty("tipo_pessoa")
 	@Enumerated(EnumType.STRING)
@@ -60,12 +57,12 @@ public class Cliente {
 		
 	}
 	
-	public Cliente(Long id, String titularConta, @CPF(message = "CPF invalido") String cpfTitular,
+	public Cliente(Long id, String titularConta, @CPF(message = "CPF invalido") String cpf, LocalDate dataNascimento,
 					TipoPessoa tipoPessoa, TipoCliente tipoCliente) {
 		this.id = id;
 		this.titularConta = titularConta;
-		this.cpfTitular = cpfTitular;
-//		this.dataNascimento = dataNascimento;
+		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
 		this.tipoPessoa = tipoPessoa;
 		this.tipoCliente = tipoCliente;
 	}
@@ -86,21 +83,21 @@ public class Cliente {
 		this.titularConta = titularConta;
 	}
 
-	public String getCpfTitular() {
-		return cpfTitular;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setCpfTitular(String cpfTitular) {
-		this.cpfTitular = cpfTitular;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-//	public LocalDate getDataNascimento() {
-//		return dataNascimento;
-//	}
-//
-//	public void setDataNascimento(LocalDate dataNascimento) {
-//		this.dataNascimento = dataNascimento;
-//	}
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 
 	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;

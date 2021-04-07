@@ -35,7 +35,7 @@ public class ClienteController {
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
-	@GetMapping("/clientes/{id}")
+	@GetMapping("/clientes/id/{id}")
 	public ResponseEntity<Cliente> getClienteById(@PathVariable(value = "id")Long id){
 		Cliente cliente = clienteService.getClienteById(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);	 
@@ -47,15 +47,15 @@ public class ClienteController {
 		return new ResponseEntity<>(clienteCriado, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("")
+	@DeleteMapping
 	public ResponseEntity<?> deletaCliente(@PathVariable(value = "id") Long id){
 		clienteService.deleteCliente(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-//	@GetMapping("/clientes/{cpf_titular}")
-//	public ResponseEntity<Cliente> getClienteByCpf(@PathVariable(value = "cpf") String cpf){
-//		Cliente cliente = clienteService.getClienteByCpf(cpf);
-//		return new ResponseEntity<>(cliente, HttpStatus.OK);
-//	}
+	@GetMapping("/clientes/cpf/{cpf}")
+	public ResponseEntity<Cliente> getClienteByCpf(@PathVariable(value = "cpf") String cpf){
+		Cliente cliente = clienteService.getClienteByCpf(cpf);
+		return new ResponseEntity<>(cliente, HttpStatus.OK);
+	}
 }

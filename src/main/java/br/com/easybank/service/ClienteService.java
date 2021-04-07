@@ -30,4 +30,7 @@ public class ClienteService {
 		clienteRepository.deleteById(id);
 	}
 	
+	public Cliente getClienteByCpf(String cpf) {
+		return clienteRepository.getClienteByCpf(cpf).orElseThrow(() -> new ClienteNotFoundException("O cliente de cpf: " + cpf + " não existe"));
+	}
 }
