@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -25,7 +25,10 @@ import br.com.easybank.enumerated.ContaPoupanca;
 import br.com.easybank.enumerated.TipoConta;
 
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 
 @Entity
 @Table(name = "contas")
@@ -38,8 +41,7 @@ public class Conta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne
-	@NotNull
+	@ManyToOne
 	private Cliente cliente;
 	
 	@JsonProperty("data_abertura_conta")

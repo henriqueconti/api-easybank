@@ -1,6 +1,8 @@
 package br.com.easybank.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -21,44 +25,47 @@ import br.com.easybank.enumerated.TipoPessoa;
 
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@JsonProperty("nome_titular")
-	@Column
-	@NotNull
+	@NotBlank
 	private String titularConta;
 	
 	@Column(unique = true)
 	@CPF(message = "CPF invalido")
-	@NotNull
+	@NotBlank
 	private String cpf; 
 	
 	@JsonProperty("data_nascimento")
-	@NotNull
+	@NotBlank
 	private LocalDate dataNascimento;
 	
 	@JsonProperty("tipo_pessoa")
 	@Enumerated(EnumType.STRING)
-	@Column
-	@NotNull
+	@NotBlank
 	private TipoPessoa tipoPessoa;
 	
 	@JsonProperty("tipo_cliente")
 	@Enumerated(EnumType.STRING)
-	@Column
-	@NotNull
+	@NotBlank
 	private TipoCliente tipoCliente;
+	
+	@OneToMany
+	private List<Conta> conta;
 	
 	public Cliente() {
 		
 	}
-	
-	public Cliente(Long id, String titularConta, @CPF(message = "CPF invalido") String cpf, LocalDate dataNascimento,
-					TipoPessoa tipoPessoa, TipoCliente tipoCliente) {
+
+
+	public Cliente(Long id, String titularConta, @CPF(message = "CPF invalido") String cpf,
+			LocalDate dataNascimento, TipoPessoa tipoPessoa, TipoCliente tipoCliente) {
 		this.id = id;
 		this.titularConta = titularConta;
 		this.cpf = cpf;
@@ -106,5 +113,21 @@ public class Cliente {
 	public void setTipoPessoa(TipoPessoa tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
-	
+
+	public TipoCliente getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(TipoCliente tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
+
+	public List<Conta> getConta() {
+		return conta;
+	}
+
+	public void setConta(List<Conta> conta) {
+		this.conta = conta;
+	}
+
 }
