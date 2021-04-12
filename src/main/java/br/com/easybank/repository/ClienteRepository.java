@@ -13,4 +13,5 @@ import br.com.easybank.model.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 	
 	Optional<Cliente> getClienteByCpf(String cpf);
+	
 }

@@ -21,7 +21,7 @@ import br.com.easybank.repository.ContaRepository;
 import br.com.easybank.service.ContaService;
 
 @RestController
-@RequestMapping("/easybank")
+@RequestMapping("/easybank/contas")
 public class ContaController {
 	
 	private final ContaService contaService;
@@ -31,25 +31,31 @@ public class ContaController {
 		this.contaService = contaService;
 	}
 	
-	@GetMapping("/contas")
+	@GetMapping
 	public ResponseEntity<List<Conta>> getAllContas(){
 		List<Conta> contas = contaService.getContas();
 		return new ResponseEntity<>(contas, HttpStatus.OK);
 	}
 	
-	@GetMapping("/contas/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Conta> getContaById(@PathVariable(value = "id")Long id){
 		Conta conta = contaService.getContaById(id);
 		return new ResponseEntity<>(conta, HttpStatus.OK);	 
 	}
 	
-	@PostMapping("/contas")
+	@GetMapping("/numeroConta/{numero_conta}")
+	public ResponseEntity<Conta> getContaByNumeroConta(@PathVariable(value = "numero_conta")Integer numeroConta){
+		Conta conta = contaService.getContaByNumeroConta(numeroConta);
+		return new ResponseEntity<>(conta, HttpStatus.OK);	 
+	}
+	
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Conta> registerConta(@RequestBody @Valid Conta conta){
 		Conta contaCriada = contaService.setNewConta(conta);
 		return new ResponseEntity<>(contaCriada, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/contas/{id}")
+	@DeleteMapping("/id/{id}")
 	public ResponseEntity<?> deletaConta(@PathVariable(value = "id") Long id){
 		contaService.deleteContaById(id);	
 		return new ResponseEntity<>(HttpStatus.OK);

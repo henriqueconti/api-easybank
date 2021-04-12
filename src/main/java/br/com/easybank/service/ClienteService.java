@@ -26,7 +26,7 @@ public class ClienteService {
 		return clienteRepository.save(cliente);
 	}
 	
-	public void deleteCliente(Long id) {
+	public void deleteClienteById(Long id) {
 		clienteRepository.deleteById(id);
 	}
 	

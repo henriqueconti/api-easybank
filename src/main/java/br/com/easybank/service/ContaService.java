@@ -20,7 +20,7 @@ public class ContaService {
 	}
 	
 	public Conta getContaById(Long id) {
-		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException("A conta de id: " + id + " não existe"));
+		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException("A conta de id: " + id + " não existe."));
 	}
 	
 	public Conta setNewConta(Conta conta) {
@@ -29,5 +29,9 @@ public class ContaService {
 	
 	public void deleteContaById(Long id) {
 		contaRepository.deleteById(id);
+	}
+	
+	public Conta getContaByNumeroConta(Integer numeroConta) {
+		return contaRepository.getContaByNumeroConta(numeroConta).orElseThrow(() -> new ContaNotFoundException("Número de conta: " + numeroConta + " não existe."));
 	}
 }

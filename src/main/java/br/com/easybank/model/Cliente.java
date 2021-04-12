@@ -34,26 +34,26 @@ public class Cliente implements Serializable{
 	private Long id;
 	
 	@JsonProperty("nome_titular")
-	@NotBlank
+	@NotNull
 	private String titularConta;
 	
 	@Column(unique = true)
 	@CPF(message = "CPF invalido")
-	@NotBlank
+	@NotNull
 	private String cpf; 
 	
 	@JsonProperty("data_nascimento")
-	@NotBlank
+	@NotNull
 	private LocalDate dataNascimento;
 	
 	@JsonProperty("tipo_pessoa")
 	@Enumerated(EnumType.STRING)
-	@NotBlank
+	@NotNull
 	private TipoPessoa tipoPessoa;
 	
 	@JsonProperty("tipo_cliente")
 	@Enumerated(EnumType.STRING)
-	@NotBlank
+	@NotNull
 	private TipoCliente tipoCliente;
 	
 	@OneToMany
@@ -62,8 +62,7 @@ public class Cliente implements Serializable{
 	public Cliente() {
 		
 	}
-
-
+	
 	public Cliente(Long id, String titularConta, @CPF(message = "CPF invalido") String cpf,
 			LocalDate dataNascimento, TipoPessoa tipoPessoa, TipoCliente tipoCliente) {
 		this.id = id;

@@ -19,7 +19,7 @@ import br.com.easybank.model.Cliente;
 import br.com.easybank.service.ClienteService;
 
 @RestController
-@RequestMapping("/easybank")
+@RequestMapping("/easybank/clientes")
 public class ClienteController {
 	
 	private final ClienteService clienteService;
@@ -29,33 +29,34 @@ public class ClienteController {
 		this.clienteService = clienteService;
 	}
 	
-	@GetMapping("/clientes")
+	@GetMapping
 	public ResponseEntity<List<Cliente>> getAllClientes(){
 		List<Cliente> clientes = clienteService.getClientes();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
-	@GetMapping("/clientes/id/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Cliente> getClienteById(@PathVariable(value = "id")Long id){
 		Cliente cliente = clienteService.getClienteById(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);	 
 	}
 	
-	@PostMapping("/clientes")
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<Cliente> getClienteByCpf(@PathVariable(value = "cpf") String cpf){
+		Cliente cliente = clienteService.getClienteByCpf(cpf);
+		return new ResponseEntity<>(cliente, HttpStatus.OK);
+	}
+	
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Cliente> registerCliente(@RequestBody @Valid Cliente cliente){
 		Cliente clienteCriado = clienteService.setNewCliente(cliente);
 		return new ResponseEntity<>(clienteCriado, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/clientes/{id}")
-	public ResponseEntity<?> deletaCliente(@PathVariable(value = "id") Long id){
-		clienteService.deleteCliente(id);
+	@DeleteMapping("/id/{id}")
+	public ResponseEntity<?> deletaClienteById(@PathVariable(value = "id") Long id){
+		clienteService.deleteClienteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	@GetMapping("/clientes/cpf/{cpf}")
-	public ResponseEntity<Cliente> getClienteByCpf(@PathVariable(value = "cpf") String cpf){
-		Cliente cliente = clienteService.getClienteByCpf(cpf);
-		return new ResponseEntity<>(cliente, HttpStatus.OK);
-	}
+
 }
